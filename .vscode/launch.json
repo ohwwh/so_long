@@ -5,39 +5,29 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "(lldb) 연결",
-            "type": "cppdbg",
-            "request": "attach",
-            "program": "프로그램 이름 입력(예: ${workspaceFolder}/a.out)",
-            "processId": "${command:pickProcess}",
-            "MIMode": "lldb"
-        },
-        {
-            "name": "(lldb) 시작",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "프로그램 이름 입력(예: ${workspaceFolder}/a.out)",
-            "args": [],
-            "stopAtEntry": true,
-            "cwd": "${fileDirname}",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "lldb"
-        },
-        {
             "name": "gcc - 활성 파일 빌드 및 디버그",
             "type": "cppdbg",
             "request": "launch",
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             "args": [
             ],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": "C/C++: gcc 활성 파일 빌드",
             "additionalSOLibSearchPath": "./minilibx_opengl_20191021/"
+        },
+        {
+            "type": "lldb",
+            "request": "launch",
+            "name": "Debug",
+            "program": "${fileDirname}/${fileBasenameNoExtension}",
+            "args": [],
+            "cwd": "${fileDirname}",
+            "stopOnEntry": false,
+            "MIMode": "lldb"
         }
     ]
 }
