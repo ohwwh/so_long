@@ -23,6 +23,9 @@ typedef struct	s_vars {
 	t_player_vars		pvars;
 	void		*tile00;
 	void		*tile01;
+	char		*map;
+	int			width;
+	int			height;
 }t_vars;
 
 int	key_hook(int keycode, t_vars *vars)
@@ -66,7 +69,7 @@ int key_hook_move(t_vars *vars)
 	int		img_width;
 	int		img_height;
 	static int i = 64;
-	static int j = 64;
+	static int j = 0;
 	static int k;
 
 	if (vars->pvars.state == 13)
@@ -78,7 +81,11 @@ int key_hook_move(t_vars *vars)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, i, j);
 		if ((k / 15) % 2 == 1)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, i, j);
-		j -= 3;
+		if (j > 0 && vars->map[(i / 64) + ((j / 64) + 1) * (vars->width + 1)] != '1')
+		{
+			if (!(i % 64) | (vars->map[((i / 64) + 1) + ((j / 64) + 1)* (vars->width + 1)] != '1'))
+				j -= 4;
+		}
 		k += 1;
 	}
 	else if (vars->pvars.state == 0)
@@ -91,7 +98,11 @@ int key_hook_move(t_vars *vars)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, i, j);
 		if ((k / 15) % 2 == 1)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, i, j);
-		i -= 3;
+		if (vars->map[(i / 64) + ((j + 64) / 64) * (vars->width + 1)] != '1')
+		{
+			if (!((j + 64) % 64) | (vars->map[((i / 64) - 1) + ((j + 64) / 64) * (vars->width + 1)] != '1'))
+				i -= 4;
+		}
 		k += 1;
 	}
 	else if (vars->pvars.state == 1)
@@ -103,7 +114,11 @@ int key_hook_move(t_vars *vars)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, i, j);
 		if ((k / 15) % 2 == 1)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, i, j);
-		j += 3;
+		if ((j < -64) | (vars->map[(i / 64) + ((j / 64) + 2) * (vars->width + 1)] != '1'))
+		{
+			if (vars->map[((i / 64) + 1) + ((j / 64) + 2) * (vars->width + 1)] != '1')
+				j += 4;
+		}
 		k += 1;
 	}
 	else if (vars->pvars.state == 2)
@@ -116,7 +131,11 @@ int key_hook_move(t_vars *vars)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, i, j);
 		if ((k / 15) % 2 == 1)
 			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, i, j);
-		i += 3;
+		if (vars->map[((i / 64) + 2) + ((j / 64) + 2) * (vars->width + 1)] != '1')
+		{
+			if (vars->map[((i / 64) + 2) + ((j / 64) + 3) * (vars->width + 1)] != '1')
+				i += 4;
+		}
 		k += 1;
 	}
 	return (0);
@@ -125,7 +144,6 @@ int key_hook_move(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
-	char	*map;
 	int		width;
 	int		height;
 	int		img_width;
@@ -135,30 +153,30 @@ int	main(int argc, char *argv[])
 
 	j = 0;
 	vars.pvars.state = -1;
-	map = parsing(argv[1]);
-	width = ft_strnlen(map) - 1;
-	height = ft_strlen(map) / (width + 1); //주어지는 맵의 마지막에 개행이 붙나??
+	vars.map = parsing(argv[1]);
+	vars.width = ft_strnlen(vars.map) - 1;
+	vars.height = (ft_strlen(vars.map) + 1) / (vars.width + 1); //주어지는 맵의 마지막에 개행이 붙나??
 	vars.mlx = mlx_init();
-	vars.win = mlx_new_window(vars.mlx, width * 64, height * 64, "New"); 
+	vars.win = mlx_new_window(vars.mlx, vars.width * 64, vars.height * 64, "New"); 
 	vars.tile00 = mlx_xpm_file_to_image(vars.mlx, "asset/tile00.xpm", &img_width, &img_height);
 	vars.tile01 = mlx_xpm_file_to_image(vars.mlx, "asset/tile01.xpm", &img_width, &img_height);
 	vars.pvars.player_image1 = mlx_xpm_file_to_image(vars.mlx, "asset/player_S00.xpm", &img_width, &img_height);
 	vars.pvars.player_image2 = mlx_xpm_file_to_image(vars.mlx, "asset/player_S01.xpm", &img_width, &img_height);
 	void *collect = mlx_xpm_file_to_image(vars.mlx, "asset/ball.xpm", &img_width, &img_height);
 	void *exit = mlx_xpm_file_to_image(vars.mlx, "asset/ladder.xpm", &img_width, &img_height);
-	while (j < height)
+	while (j < vars.height)
 	{
 		i = 0;
-		while (i < width)
+		while (i < vars.width)
 		{
-			if (map[i + j * (width + 1)] != '1')
+			if (vars.map[i + j * (vars.width + 1)] != '1')
 			{
 				mlx_put_image_to_window(vars.mlx, vars.win, vars.tile00, i * 64, j * 64);
-				if (map[i + j * (width + 1)] == 'P')
+				if (vars.map[i + j * (vars.width + 1)] == 'P')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.pvars.player_image1, i * 64, j * 64);
-				else if (map[i + j * (width + 1)] == 'C')
+				else if (vars.map[i + j * (vars.width + 1)] == 'C')
 					mlx_put_image_to_window(vars.mlx, vars.win, collect, i * 64, j * 64);
-				else if (map[i + j * (width + 1)] == 'E')
+				else if (vars.map[i + j * (vars.width + 1)] == 'E')
 					mlx_put_image_to_window(vars.mlx, vars.win, exit, i * 64, j * 64);
 				
 			}
