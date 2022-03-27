@@ -20,8 +20,8 @@ typedef struct s_player_vars {
 	void	*player_image7;
 	void	*player_image8;
 	int		state;
-	void	*save_00;
-	void	*save_01;
+	int		*x;
+	int		*y;
 } t_player_vars;
 
 
@@ -119,6 +119,8 @@ void	map_draw_mini_2(t_vars vars, int x, int y)
 	int	i;
 	int	j;
 
+	if (vars.map[x + y * (vars.width + 1)] == 'C')
+		vars.map[x + y * (vars.width + 1)] = '0';
 	j = y - 1;
 	while (j < y + 2)
 	{
@@ -128,9 +130,7 @@ void	map_draw_mini_2(t_vars vars, int x, int y)
 			if (vars.map[i + j * (vars.width + 1)] != '1')
 			{
 				mlx_put_image_to_window(vars.mlx, vars.win, vars.tile00, i * 64, j * 64);
-				if (vars.map[i + j * (vars.width + 1)] == 'P')
-					mlx_put_image_to_window(vars.mlx, vars.win, vars.pvars.player_image1, i * 64, j * 64);
-				else if (vars.map[i + j * (vars.width + 1)] == 'C')
+				if (vars.map[i + j * (vars.width + 1)] == 'C')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.collect, i * 64, j * 64);
 				else if (vars.map[i + j * (vars.width + 1)] == 'E')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.exit, i * 64, j * 64);
@@ -158,9 +158,7 @@ void	map_draw_mini(t_vars vars, int x, int y)
 			if (vars.map[i + j * (vars.width + 1)] != '1')
 			{
 				mlx_put_image_to_window(vars.mlx, vars.win, vars.tile00, i * 64, j * 64);
-				if (vars.map[i + j * (vars.width + 1)] == 'P')
-					mlx_put_image_to_window(vars.mlx, vars.win, vars.pvars.player_image1, i * 64, j * 64);
-				else if (vars.map[i + j * (vars.width + 1)] == 'C')
+				if (vars.map[i + j * (vars.width + 1)] == 'C')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.collect, i * 64, j * 64);
 				else if (vars.map[i + j * (vars.width + 1)] == 'E')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.exit, i * 64, j * 64);
@@ -189,7 +187,10 @@ void	map_draw(t_vars vars)
 			{
 				mlx_put_image_to_window(vars.mlx, vars.win, vars.tile00, i * 64, j * 64);
 				if (vars.map[i + j * (vars.width + 1)] == 'P')
-					mlx_put_image_to_window(vars.mlx, vars.win, vars.pvars.player_image1, i * 64, j * 64);
+				{
+					*(vars.pvars.x) = i * 64;
+					*(vars.pvars.y) = (j - 1) * 64;
+				}
 				else if (vars.map[i + j * (vars.width + 1)] == 'C')
 					mlx_put_image_to_window(vars.mlx, vars.win, vars.collect, i * 64, j * 64);
 				else if (vars.map[i + j * (vars.width + 1)] == 'E')
@@ -202,14 +203,15 @@ void	map_draw(t_vars vars)
 		}
 		j ++;
 	}
+	mlx_put_image_to_window(vars.mlx, vars.win, vars.pvars.player_image1, *(vars.pvars.x), *(vars.pvars.y));
 }
 
 int key_hook_move(t_vars *vars)
 {
 	int		img_width;
 	int		img_height;
-	static int i = 64;
-	static int j = 0;
+	int i = *(vars->pvars.x);
+	int j = *(vars->pvars.y);
 	static int k;
 
 	if (vars->pvars.state == 13)
@@ -220,17 +222,17 @@ int key_hook_move(t_vars *vars)
 			if (vars->map[x_loc_right(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1')
 			{
 				if (!(i % 64) | vars->map[(x_loc_right(i) + 1) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1')
-					j -= 4;
+					*(vars->pvars.y) -= 4;
 				else
-					i -= 1;
+					*(vars->pvars.x) -= 1;
 			}
 			else if (vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1')
-				i += 1;
+				*(vars->pvars.x) += 1;
 		}
 		if ((k / 15) % 2 == 0)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image3, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image3, *(vars->pvars.x), *(vars->pvars.y));
 		if ((k / 15) % 2 == 1)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image4, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image4, *(vars->pvars.x), *(vars->pvars.y));
 		k += 1;
 	}
 	else if (vars->pvars.state == 0)
@@ -241,17 +243,17 @@ int key_hook_move(t_vars *vars)
 			if (vars->map[(x_loc_left(i) - 1) + y_loc_under(j) * (vars->width + 1)] != '1')
 			{
 				if (!(j % 64) | vars->map[(x_loc_left(i) - 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-					i -= 4;
+					*(vars->pvars.x) -= 4;
 				else
-					j -= 1;
+					*(vars->pvars.y) -= 1;
 			}
 			else if (vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-				j += 1;
+				*(vars->pvars.y) += 1;
 		}
 		if ((k / 15) % 2 == 0)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image7, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image7, *(vars->pvars.x), *(vars->pvars.y));
 		if ((k / 15) % 2 == 1)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image8, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image8, *(vars->pvars.x), *(vars->pvars.y));
 		k += 1;
 	}
 	else if (vars->pvars.state == 1)
@@ -262,29 +264,17 @@ int key_hook_move(t_vars *vars)
 			if (vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
 			{
 				if (!(i % 64) | vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-					j += 4;
+					*(vars->pvars.y) += 4;
 				else
-					i -= 1;
+					*(vars->pvars.x) -= 1;
 			}
 			else if (vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1')
-				i += 1;
+				*(vars->pvars.x) += 1;
 		}
 		if ((k / 15) % 2 == 0)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image1, *(vars->pvars.x), *(vars->pvars.y));
 		if ((k / 15) % 2 == 1)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, i, j);
-		if (i > 0 && i < 64 * (vars->width - 1) && j < 64 * (vars->height - 2))
-		{
-			if (vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-			{
-				if (!(i % 64) | vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-					j += 4;
-				else
-					i -= 1;
-			}
-			else if (vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1')
-				i += 1;
-		}
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image2, *(vars->pvars.x), *(vars->pvars.y));
 		k += 1;
 	}
 	else if (vars->pvars.state == 2)
@@ -295,17 +285,17 @@ int key_hook_move(t_vars *vars)
 			if (vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1')
 			{
 				if (!(j % 64) | vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-					i += 4;
+					*(vars->pvars.x) += 4;
 				else
-					j -= 1;
+					*(vars->pvars.y) -= 1;
 			}
 			else if (vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1')
-				j += 1;
+				*(vars->pvars.y) += 1;
 		}
 		if ((k / 15) % 2 == 0)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image5, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image5, *(vars->pvars.x), *(vars->pvars.y));
 		if ((k / 15) % 2 == 1)
-			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image6, i, j);
+			mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars.player_image6, *(vars->pvars.x), *(vars->pvars.y));
 		k += 1;
 	}
 	return (0);
@@ -321,7 +311,8 @@ int	main(int argc, char *argv[])
 	int		i;
 	int		j;
 
-	j = 0;
+	vars.pvars.x = &i;
+	vars.pvars.y = &j;
 	vars.pvars.state = -1;
 	vars.map = parsing(argv[1]);
 	vars.width = ft_strnlen(vars.map) - 1;
