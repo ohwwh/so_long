@@ -1,0 +1,574 @@
+#include "mlx.h"
+#include "get_next_line.h"
+#include "so_long.h"
+#include <stdlib.h>
+#include <stdio.h>
+#define SPEED 4
+#define INGAME 1
+#define DEATH 2
+//extern char *parsing(char *map_ber);
+
+/*typedef struct s_character_vars {
+	void	*character_image1;
+	void	*character_image2;
+	void	*character_image3;
+	void	*character_image4;
+	void	*character_image5;
+	void	*character_image6;
+	void	*character_image7;
+	void	*character_image8;
+	int		is_player;
+	int		state;
+	int		dir;
+	int		x;
+	int		y;
+	int		d;
+} t_character_vars;
+
+
+typedef struct	s_vars {
+	void				*mlx;
+	void				*win;
+	int					game_state;
+	t_character_vars		**objs;
+	t_character_vars		*pvars;
+	t_character_vars		*evars;
+	void		*tile00;
+	void		*tile01;
+	void		*collect;
+	void		*exit;
+	char		*map;
+	int			width;
+	int			height;
+	int			collect_num;
+}t_vars;*/
+
+int	abs(int x)
+{
+	if (x >= 0)
+		return (x);
+	else
+		return (-x);
+}
+
+int x_loc_left(int x)
+{
+	int	ret;
+
+	if (!(x % 64))
+		ret = x / 64;
+	else
+		ret = (x / 64) + 1;
+		return (ret);
+}
+
+int	y_loc_over(int y)
+{
+	int	ret;
+
+	y += 64;
+	if (!(y % 64))
+		ret = y / 64;
+	else
+		ret = (y / 64) + 1;
+	return (ret);
+}
+
+int x_loc_right(int x)
+{
+	int	ret;
+
+	ret = x / 64;
+	return (ret);
+}
+
+int	y_loc_under(int y)
+{
+	int	ret;
+
+	y += 64;
+	ret = y / 64;
+	return (ret);
+}
+
+int	key_hook(int keycode, t_vars *vars)
+{
+	if (keycode == 53)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(0);
+	}
+	return (0);
+}
+
+int	key_press(int keycode, t_vars *vars)
+{
+	if (vars->game_state == INGAME)
+	{
+		if (keycode == 13)
+			vars->pvars->state = 13;
+		else if (keycode == 0)
+			vars->pvars->state = 0;
+		else if (keycode == 1)
+			vars->pvars->state = 1;
+		else if (keycode == 2)
+			vars->pvars->state = 2;
+	}
+	return (0);
+}
+
+int	key_release(int keycode, t_vars *vars)
+{
+	if (keycode == 13)
+		vars->pvars->state = -1;
+	if (keycode == 0)
+		vars->pvars->state = -1;
+	if (keycode == 1)
+		vars->pvars->state = -1;
+	if (keycode == 2)
+		vars->pvars->state = -1;
+	if (keycode == 53)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		exit(0);
+	}
+	return (0);
+}
+
+void	enemy_search(t_vars *vars)
+{
+	int	x = (vars->evars->x) / 64;
+	int	y = ((vars->evars->y) / 64) + 1;
+	if (vars->evars->dir == 13)
+	{
+		y --;
+		while (y >= 0 && (vars->map[x + y * (vars->width + 1)] != '1' && vars->map[x + y * (vars->width + 1)] != 'R'))
+		{
+			if (vars->evars->y > vars->pvars->y && abs(vars->evars->x - vars->pvars->x) <= 40)
+			{
+				vars->game_state = DEATH;
+				return ;
+			}
+			y --;
+		}	
+	}
+	else if (vars->evars->dir == 0)
+	{
+		x --;
+		while (x >= 0 && (vars->map[x + y * (vars->width + 1)] != '1' && vars->map[x + y * (vars->width + 1)] != 'R'))
+		{
+			if (vars->evars->x > vars->pvars->x && abs(vars->evars->y - vars->pvars->y) <= 40)
+			{
+				vars->game_state = DEATH;
+				return ;
+			}
+			x --;
+		}	
+	}
+	else if (vars->evars->dir == 1)
+	{
+		y ++;
+		while (y < vars->height && (vars->map[x + y * (vars->width + 1)] != '1' && vars->map[x + y * (vars->width + 1)] != 'R'))
+		{
+			if (vars->evars->y < vars->pvars->y && abs(vars->evars->x - vars->pvars->x) <= 40)
+			{
+				vars->game_state = DEATH;
+				return ;
+			}
+			y ++;
+		}	
+	}
+	else if (vars->evars->dir == 2)
+	{
+		x ++;
+		while (x < vars->width && (vars->map[x + y * (vars->width + 1)] != '1' && vars->map[x + y * (vars->width + 1)] != 'R'))
+		{
+			if (vars->evars->x < vars->pvars->x && abs(vars->evars->y - vars->pvars->y) <= 40)
+			{
+				vars->game_state = DEATH;
+				return ;
+			}
+			x ++;
+		}	
+	}
+}
+
+void	map_draw_mini(t_vars *vars, int x, int y)
+{
+	int	i;
+	int	j;
+
+	if (vars->map[x + y * (vars->width + 1)] == 'C')
+	{
+		vars->map[x + y * (vars->width + 1)] = '0';
+		(vars->collect_num) --;
+	}
+	if (vars->map[x + y * (vars->width + 1)] == 'E' && !vars->collect_num)
+		vars->map[x + y * (vars->width + 1)] = '0';
+	j = y - 1;
+	while (j < y + 2)
+	{
+		i = x;
+		while (i < x + 2)
+		{
+			if (vars->map[i + j * (vars->width + 1)] != '1')
+			{
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->tile00, i * 64, j * 64);
+				if (vars->map[i + j * (vars->width + 1)] == 'C')
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->collect, i * 64, j * 64);
+				else if (vars->map[i + j * (vars->width + 1)] == 'E')
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->exit, i * 64, j * 64);
+				/*else if (vars->map[i + j * (vars->width + 1)] == 'R')
+				{
+					if (vars->evars->dir == 13)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->evars->character_image3, i * 64, (j - 1) * 64);
+					if (vars->evars->dir == 0)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->evars->character_image7, i * 64, (j - 1) * 64);
+					if (vars->evars->dir == 1)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->evars->character_image1, i * 64, (j - 1) * 64);
+					if (vars->evars->dir == 2)
+						mlx_put_image_to_window(vars->mlx, vars->win, vars->evars->character_image5, i * 64, (j - 1) * 64);
+				}*/
+			}
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->tile01, i * 64, j * 64);
+			i ++;
+		}
+		j ++;
+	}
+}
+
+void	map_draw(t_vars *vars)
+{
+	int	i;
+	int	j;
+
+	j = 0;
+	while (j < vars->height)
+	{
+		i = 0;
+		while (i < vars->width)
+		{
+			if (vars->map[i + j * (vars->width + 1)] != '1')
+			{
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->tile00, i * 64, j * 64);
+				if (vars->map[i + j * (vars->width + 1)] == 'P')
+				{
+					vars->pvars->x = i * 64;
+					vars->pvars->y = (j - 1) * 64;
+				}
+				else if (vars->map[i + j * (vars->width + 1)] == 'R')
+				{
+					vars->evars->x = i * 64;
+					vars->evars->y = (j - 1) * 64;
+				}
+				if (vars->map[i + j * (vars->width + 1)] == 'C')
+				{
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->collect, i * 64, j * 64);
+					vars->collect_num ++;
+				}
+				else if (vars->map[i + j * (vars->width + 1)] == 'E')
+					mlx_put_image_to_window(vars->mlx, vars->win, vars->exit, i * 64, j * 64);
+			}
+			else
+				mlx_put_image_to_window(vars->mlx, vars->win, vars->tile01, i * 64, j * 64);
+			i ++;
+		}
+		j ++;
+	}
+	//mlx_put_image_to_window(vars->mlx, vars->win, vars->pvars->character_image1, vars->pvars->x, vars->pvars->y);
+	//mlx_put_image_to_window(vars->mlx, vars->win, vars->evars->character_image1, vars->evars->x, vars->evars->y);
+}
+
+void	character_draw(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+	int i = cvars->x;
+	int j = cvars->y;
+
+	if (cvars->dir == 13)
+	{
+		if ((k / (60 / SPEED)) % 2 == 0)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image3, i, j);
+		else if ((k / (60 / SPEED)) % 2 == 1)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image4, i, j);
+	}
+	else if (cvars->dir == 0)
+	{
+		if ((k / (60 / SPEED)) % 2 == 0)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image7, i, j);
+		else if ((k / (60 / SPEED)) % 2 == 1)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image8, i, j);
+	}
+	else if (cvars->dir == 1)
+	{
+		if ((k / (60 / SPEED)) % 2 == 0)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image1, i, j);
+		else if ((k / (60 / SPEED)) % 2 == 1)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image2, i, j);
+	}
+	else if (cvars->dir == 2)
+	{
+		if ((k / (60 / SPEED)) % 2 == 0)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image5, i, j);
+		else if ((k / (60 / SPEED)) % 2 == 1)
+			mlx_put_image_to_window(vars->mlx, vars->win, cvars->character_image6, i, j);
+	}
+	k ++;
+	if (cvars->state == -1 | cvars->state == -2)
+		k --;
+}
+
+void	move_W(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+	int i = cvars->x;
+	int j = cvars->y;
+
+	if (j > -64)
+	{
+		if (vars->map[x_loc_right(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1' && vars->map[x_loc_right(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != 'R')
+		{
+			if (!(i % 64) | (vars->map[(x_loc_right(i) + 1) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + (y_loc_over(j) - 1) * (vars->width + 1)] != 'R'))
+			{
+				cvars->y -= SPEED;
+				cvars->d += SPEED;
+			}
+			else if (i > 0 && (vars->map[(x_loc_left(i) - 1) + y_loc_over(j) * (vars->width + 1)] != '1' && vars->map[(x_loc_left(i) + 1) + y_loc_over(j) * (vars->width + 1)] != 'R'))
+			{
+				cvars->x -= 1;
+				cvars->d += 1;
+			}
+		}
+		else if (i < 64 * (vars->width - 1) && vars->map[(x_loc_right(i) + 1) + (y_loc_over(j)) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + y_loc_over(j) * (vars->width + 1)] != 'R')
+		{
+			cvars->x += 1;
+			cvars->d += 1;
+		}	
+	}
+	cvars->dir = 13;
+}
+
+void	move_A(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+	int i = cvars->x;
+	int j = cvars->y;
+
+	if (i > 0)
+	{
+		if (vars->map[(x_loc_left(i) - 1) + y_loc_under(j) * (vars->width + 1)] != '1' && vars->map[(x_loc_left(i) - 1) + y_loc_under(j) * (vars->width + 1)] != 'R')
+		{
+			if (!(j % 64) | (vars->map[(x_loc_left(i) - 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[(x_loc_left(i) - 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != 'R'))
+			{
+				cvars->x -= SPEED;
+				cvars->d += SPEED;
+			}
+			else if (j > -64 && (vars->map[x_loc_left(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1' && vars->map[x_loc_left(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != 'R'))
+			{
+				cvars->y -= 1;
+				cvars->d += 1;
+			}
+					
+		}
+		else if (j < 64 * (vars->height - 2) && vars->map[x_loc_left(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[x_loc_left(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != 'R')
+		{
+			cvars->y += 1;
+			cvars->d += 1;
+		}
+	}
+	cvars->dir = 0;
+}
+
+void	move_S(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+	int i = cvars->x;
+	int j = cvars->y;
+
+	if (j < 64 * (vars->height - 2))
+	{
+		if (vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != 'R')
+		{
+			if (!(i % 64) | (vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != 'R'))
+			{
+				cvars->y += SPEED;
+				cvars->d += SPEED;
+			}	
+			else if (i > 0 && vars->map[(x_loc_left(i) - 1) + y_loc_under(j) * (vars->width + 1)] != '1' && vars->map[(x_loc_left(i) - 1) + y_loc_under(j) * (vars->width + 1)] != 'R')
+			{
+				cvars->x -= 1;
+				cvars->d += 1;
+			}
+		}
+		else if (i < 64 * (vars->width - 1) && vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != 'R')
+		{
+			cvars->x += 1;
+			cvars->d += 1;
+		}
+	}
+	cvars->dir = 1;
+}
+
+void	move_D(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+	int i = cvars->x;
+	int j = cvars->y;
+
+	if (i < 64 * (vars->width - 1))
+	{
+		if (vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + y_loc_under(j) * (vars->width + 1)] != 'R')
+		{
+			if (!(j % 64) | (vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[(x_loc_right(i) + 1) + (y_loc_under(j) + 1) * (vars->width + 1)] != 'R'))
+			{
+				cvars->x += SPEED;
+				cvars->d += SPEED;
+			}
+			else if (j > -64 && vars->map[x_loc_right(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != '1' && vars->map[x_loc_right(i) + (y_loc_over(j) - 1) * (vars->width + 1)] != 'R')
+			{
+				cvars->y -= 1;
+				cvars->d += 1;
+			}
+		}
+		else if (j < 64 * (vars->height - 2) && vars->map[x_loc_right(i) + (y_loc_under(j) + 1) * (vars->width + 1)] != '1' && vars->map[x_loc_right(i) + (y_loc_over(j) + 1) * (vars->width + 1)] != 'R')
+		{
+			cvars->y += 1;
+			cvars->d += 1;
+		}
+	}
+	cvars->dir = 2;
+}
+
+void	move_around(t_vars *vars, t_character_vars *cvars)
+{
+	static int	k;
+
+	if (((k / 130) % 4) == 0)
+		cvars->dir = 1;
+	else if (((k / 130) % 4) == 1)
+		cvars->dir = 2;
+	else if (((k / 130) % 4) == 2)
+		cvars->dir = 13;
+	else if (((k / 130) % 4) == 3)
+		cvars->dir = 0;
+	k ++;
+}
+
+void	character_move(t_vars *vars, t_character_vars *cvars)
+{
+	if (cvars->state == 13)
+		move_W(vars, cvars);
+	else if (cvars->state == 0)
+		move_A(vars, cvars);
+	else if (cvars->state == 1)
+		move_S(vars, cvars);
+	else if (cvars->state == 2)
+		move_D(vars, cvars);
+	else if (cvars->state == -2)
+		move_around(vars, cvars);
+}
+
+int key_hook_move(t_vars *vars)
+{
+	int i = vars->pvars->x;
+	int j = vars->pvars->y;
+	static int k;
+	static int f = 0;
+	
+	enemy_search(vars);
+	map_draw_mini(vars, x_loc_right(vars->evars->x), y_loc_under(vars->evars->y));
+	map_draw_mini(vars, x_loc_right(i), y_loc_under(j));
+	character_move(vars, vars->evars);
+	character_move(vars, vars->pvars);
+	character_draw(vars, vars->evars);
+	character_draw(vars, vars->pvars);
+	if (vars->pvars->state != -1 && vars->pvars->d / 64 > f)
+		printf("%d\n", ++ f);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->tile01, 0, 0);
+	mlx_string_put(vars->mlx, vars->win, 24, 36, 0x000000, "4");
+	return (0);
+}
+
+int	close_game(t_vars *vars)
+{
+	mlx_destroy_window(vars->mlx, vars->win);
+	exit(0);
+}
+
+int	count_obj(char *map)
+{
+	int	ret;
+
+	ret = 0;
+	while (*map)
+	{
+		if (*map == 'P' | *map == 'R')
+			ret ++;
+	}
+	return (ret);
+}
+
+int	main(int argc, char *argv[])
+{
+	t_vars	vars;
+	t_character_vars pvars;
+	t_character_vars evars;
+	int		width;
+	int		height;
+	int		img_width;
+	int		img_height;
+	int		n;
+	int		i;
+
+	vars.game_state = INGAME;
+	vars.pvars = &pvars;
+	vars.evars = &evars;
+	vars.pvars->state = -1;
+	vars.evars->state = -2;
+	vars.pvars->d = 0;
+	vars.pvars->dir = 1;
+	vars.evars->dir = 1;
+	vars.collect_num = 0;
+	vars.map = parsing(argv[1]);
+	/*n = count_obj(vars.map);
+	vars.objs = (t_character_vars **)malloc(sizeof(t_character_vars *) * (n + 1));
+	i = 0;
+	while (i < n)
+	{
+		vars.objs[i] = (t_character_vars *)malloc(sizeof(t_character_vars));
+		i ++;
+	}
+	vars.objs[i] = 0;*/
+	vars.width = ft_strnlen(vars.map) - 1;
+	vars.height = (ft_strlen(vars.map) + 1) / (vars.width + 1); //주어지는 맵의 마지막에 개행이 붙나??
+	vars.mlx = mlx_init();
+	vars.win = mlx_new_window(vars.mlx, vars.width * 64, vars.height * 64, "New"); 
+	vars.tile00 = mlx_xpm_file_to_image(vars.mlx, "asset/tile00.xpm", &img_width, &img_height);
+	vars.tile01 = mlx_xpm_file_to_image(vars.mlx, "asset/tile01.xpm", &img_width, &img_height);
+	vars.pvars->character_image1 = mlx_xpm_file_to_image(vars.mlx, "asset/player_S00.xpm", &img_width, &img_height);
+	vars.pvars->character_image2 = mlx_xpm_file_to_image(vars.mlx, "asset/player_S01.xpm", &img_width, &img_height);
+	vars.pvars->character_image3 = mlx_xpm_file_to_image(vars.mlx, "asset/player_N00.xpm", &img_width, &img_height);
+	vars.pvars->character_image4 = mlx_xpm_file_to_image(vars.mlx, "asset/player_N01.xpm", &img_width, &img_height);
+	vars.pvars->character_image5 = mlx_xpm_file_to_image(vars.mlx, "asset/player_E00.xpm", &img_width, &img_height);
+	vars.pvars->character_image6 = mlx_xpm_file_to_image(vars.mlx, "asset/player_E01.xpm", &img_width, &img_height);
+	vars.pvars->character_image7 = mlx_xpm_file_to_image(vars.mlx, "asset/player_W00.xpm", &img_width, &img_height);
+	vars.pvars->character_image8 = mlx_xpm_file_to_image(vars.mlx, "asset/player_W01.xpm", &img_width, &img_height);
+	vars.evars->character_image1 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_S00.xpm", &img_width, &img_height);
+	vars.evars->character_image2 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_S00.xpm", &img_width, &img_height);
+	vars.evars->character_image3 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_N00.xpm", &img_width, &img_height);
+	vars.evars->character_image4 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_N00.xpm", &img_width, &img_height);
+	vars.evars->character_image5 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_E00.xpm", &img_width, &img_height);
+	vars.evars->character_image6 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_E00.xpm", &img_width, &img_height);
+	vars.evars->character_image7 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_W00.xpm", &img_width, &img_height);
+	vars.evars->character_image8 = mlx_xpm_file_to_image(vars.mlx, "asset/rocket_W00.xpm", &img_width, &img_height);
+	vars.collect = mlx_xpm_file_to_image(vars.mlx, "asset/ball.xpm", &img_width, &img_height);
+	vars.exit = mlx_xpm_file_to_image(vars.mlx, "asset/ladder.xpm", &img_width, &img_height);
+	map_draw(&vars);
+	mlx_hook(vars.win, 2, 0, &key_press, &vars);
+	mlx_hook(vars.win, 3, 1L<<1, &key_release, &vars);
+	mlx_hook(vars.win, 17, 0, &close_game, &vars);
+	mlx_loop_hook(vars.mlx, &key_hook_move, &vars);
+	mlx_loop(vars.mlx);
+	return (0);
+}
