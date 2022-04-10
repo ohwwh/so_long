@@ -21,6 +21,7 @@ void    init_player(t_vars *vars, t_character_vars *pvars)
     int img_height;
     
     pvars->is_player = 0;
+	pvars->caught = -1;
     pvars->state = -1;
     pvars->d = 0;
     pvars->dir = 1;
@@ -40,17 +41,18 @@ void    init_enemy(t_vars *vars, t_character_vars *evars, int n)
     int img_height;
     
     evars->is_player = n;
+	evars->caught = -1;
     evars->state = -2;
     evars->d = 0;
     evars->dir = 1;
-    evars->character_image1 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_S00.xpm", &img_width, &img_height);
-	evars->character_image2 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_S00.xpm", &img_width, &img_height);
+    evars->character_image1 = mlx_xpm_file_to_image(vars->mlx, "asset/fox0.xpm", &img_width, &img_height);
+	evars->character_image2 = mlx_xpm_file_to_image(vars->mlx, "asset/fox0.xpm", &img_width, &img_height);
 	evars->character_image3 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_N00.xpm", &img_width, &img_height);
 	evars->character_image4 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_N00.xpm", &img_width, &img_height);
 	evars->character_image5 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_E00.xpm", &img_width, &img_height);
 	evars->character_image6 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_E00.xpm", &img_width, &img_height);
-	evars->character_image7 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_W00.xpm", &img_width, &img_height);
-	evars->character_image8 = mlx_xpm_file_to_image(vars->mlx, "asset/rocket_W00.xpm", &img_width, &img_height);
+	evars->character_image7 = mlx_xpm_file_to_image(vars->mlx, "asset/fox2.xpm", &img_width, &img_height);
+	evars->character_image8 = mlx_xpm_file_to_image(vars->mlx, "asset/fox2.xpm", &img_width, &img_height);
 }
 
 void    init_obj(t_vars *vars)
