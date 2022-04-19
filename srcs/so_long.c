@@ -37,11 +37,7 @@ int	key_release(int keycode, t_vars *vars)
 	if (keycode == 2 | keycode == 124)
 		vars->objs[0]->state = -1;
 	if (keycode == 53)
-	{
-		ft_free(vars);
-		mlx_destroy_window(vars->mlx, vars->win);
-		exit(0);
-	}
+		close_game(vars);
 	if (keycode == 15)
 	{
 		if (vars->game_state == DEATH | vars->game_state == CLEAR)
@@ -75,6 +71,7 @@ int	main(int argc, char *argv[])
 	t_vars	vars;
 
 	vars.map = parsing(argv[1]);
+	arg_check(argc, argv, vars);
 	vars.w = ft_strnlen(vars.map) - 1;
 	vars.h = (ft_strlen(vars.map) + 1) / (vars.w + 1);
 	map_check(vars.map, &vars);

@@ -78,6 +78,8 @@ typedef struct s_vars {
 }	t_vars;
 
 char	*parsing(char *map_ber);
+void	arg_check(int argc, char *argv[], t_vars vars);
+int		extension_check(char *filename);
 int		abs(int x);
 int		xl(int x);
 int		yo(int y);

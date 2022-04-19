@@ -43,9 +43,11 @@ int	map_check_comp(char *map, t_vars *vars)
 			(check_p)++;
 		else if (*map == 'E')
 			(check_e)++;
+		else if (*map != 'R' && *map != '1' && *map != '0')
+			return (2);
 		map ++;
 	}
-	if (!check_p | !check_e | !vars->collect_num)
+	if ((check_p != 1) | (!check_e) | (!vars->collect_num))
 		return (1);
 	return (0);
 }
@@ -80,14 +82,22 @@ int	map_check_surr(char *map, t_vars *vars)
 
 void	map_check(char *map, t_vars *vars)
 {
-	if (map_check_comp(map, vars) == 1)
+	int	ret;
+
+	ret = map_check_comp(map, vars);
+	if (ret == 1)
 	{
-		printf("Error\n맵에 필요한 요소가 부족합니다\n");
-		//exit(0);
+		printf("Error\nNot enough necessary components in the map\n");
+		exit(0);
+	}
+	else if (ret == 2)
+	{
+		printf("Error\nInvalid componenets in the map\n");
+		exit(0);
 	}
 	else if (map_check_surr(map, vars) == 1)
 	{
-		printf("Error\n맵이 직사각형이 아니거나, 벽으로 둘러쌓여 있지 않습니다\n");
-		//exit(0);
+		printf("Error\nInvalid shape of the map\n");
+		exit(0);
 	}
 }
