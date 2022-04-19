@@ -28,7 +28,7 @@
             "program": "${fileDirname}/${fileBasenameNoExtension}",
             //"program": "/Users/ohw/OHW/42Seoul/so_long/남의 것/so_long/so_long_bonus",
             "args": [
-                "map/map.ber"
+                "${workspaceFolder}/map/map_test.ber"
             ],
             "cwd": "${fileDirname}",
             //"cwd": "/Users/ohw/OHW/42Seoul/so_long/남의 것/so_long",
