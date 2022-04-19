@@ -1,4 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 15:32:55 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:32:56 by hoh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
+
+int	abs(int x)
+{
+	if (x >= 0)
+		return (x);
+	else
+		return (-x);
+}
 
 void	sort(int list[], int n, t_character_vars **objs)
 {
@@ -6,13 +26,6 @@ void	sort(int list[], int n, t_character_vars **objs)
 	int	j;
 	int	key;
 
-	/*for(i=1; i<n; i++){
-		key = list[i]; 
-			for(j=i-1; j>=0 && objs[list[j]]->y > objs[key]->y; j--){
-				list[j+1] = list[j];
-			}
-		list[j+1] = key;
-	}*/
 	i = 1;
 	while (i < n)
 	{

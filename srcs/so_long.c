@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   so_long.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 15:32:42 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:32:43 by hoh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 #include "so_long.h"
 
@@ -65,7 +77,7 @@ int	main(int argc, char *argv[])
 	vars.map = parsing(argv[1]);
 	vars.w = ft_strnlen(vars.map) - 1;
 	vars.h = (ft_strlen(vars.map) + 1) / (vars.w + 1);
-	//map_check(vars.map, &vars);
+	map_check(vars.map, &vars);
 	ft_mlx_init(&vars);
 	init(&vars);
 	map_draw(&vars);

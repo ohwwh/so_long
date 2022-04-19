@@ -1,43 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   move.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 15:32:12 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:32:13 by hoh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
-
-void	move_collect(t_vars *vars, t_character_vars *cvars)
-{
-	const int	i = cvars->x;
-	const int	j = cvars->y;
-
-	if (vars->map[xr(i) + (yu(j)) * (vars->w + 1)] == 'C')
-	{
-		vars->map[xr(i) + (yu(j)) * (vars->w + 1)] = 'c';
-		(vars->collect_num)--;
-	}
-	else if (vars->map[xl(i) + (yu(j)) * (vars->w + 1)] == 'C')
-	{
-		vars->map[xl(i) + (yu(j)) * (vars->w + 1)] = 'c';
-		(vars->collect_num)--;
-	}
-	else if (vars->map[xr(i) + (yo(j)) * (vars->w + 1)] == 'C')
-	{
-		vars->map[xr(i) + (yo(j)) * (vars->w + 1)] = 'c';
-		(vars->collect_num)--;
-	}
-	else if (vars->map[xl(i) + (yo(j)) * (vars->w + 1)] == 'C')
-	{
-		vars->map[xl(i) + (yo(j)) * (vars->w + 1)] = 'c';
-		(vars->collect_num)--;
-	}
-}
-
-void	move_exit(t_vars *vars, t_character_vars *cvars)
-{
-	const int	i = cvars->x;
-	const int	j = cvars->y;
-
-	if (vars->map[xr(i) + (yu(j)) * (vars->w + 1)] == 'E')
-	{
-		if (!vars->collect_num)
-			vars->game_state = CLEAR;
-	}
-}
 
 void	move_w(t_vars *vars, t_character_vars *cvars, int i, int j)
 {
@@ -64,7 +37,7 @@ void	move_w(t_vars *vars, t_character_vars *cvars, int i, int j)
 			cvars->d += 1;
 		}	
 	}
-	cvars->dir = 13;
+	cvars->dir = W;
 }
 
 void	move_a(t_vars *vars, t_character_vars *cvars, int i, int j)
@@ -92,12 +65,12 @@ void	move_a(t_vars *vars, t_character_vars *cvars, int i, int j)
 			cvars->d += 1;
 		}
 	}
-	cvars->dir = 0;
+	cvars->dir = A;
 }
 
 void	move_s(t_vars *vars, t_character_vars *cvars, int i, int j)
 {
-	const int x = 64 * (vars->w - 1);
+	const int	x = 64 * (vars->w - 1);
 
 	if (j < 64 * (vars->h - 2))
 	{
@@ -120,13 +93,13 @@ void	move_s(t_vars *vars, t_character_vars *cvars, int i, int j)
 			cvars->d += 1;
 		}
 	}
-	cvars->dir = 1;
+	cvars->dir = S;
 }
 
 void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j)
 {
-	const int x = 64 * (vars->h - 2);
-	
+	const int	x = 64 * (vars->h - 2);
+
 	if (i < 64 * (vars->w - 1))
 	{
 		if (vars->map[loc(xr(i) + 1, yu(j), vars)] != '1')
@@ -148,25 +121,7 @@ void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j)
 			cvars->d += 1;
 		}
 	}
-	cvars->dir = 2;
-}
-
-void	move_around(t_vars *vars, t_character_vars *cvars, int k)
-{
-	int	arr[4];
-
-	arr[0] = 1;
-	arr[1] = 2;
-	arr[2] = 13;
-	arr[3] = 0;
-	if (((k / (480 / SPEED)) % 4) == 0)
-		cvars->dir = arr[0];
-	else if (((k / (480 / SPEED)) % 4) == 1)
-		cvars->dir = arr[1];
-	else if (((k / (480 / SPEED)) % 4) == 2)
-		cvars->dir = arr[2];
-	else if (((k / (480 / SPEED)) % 4) == 3)
-		cvars->dir = arr[3];
+	cvars->dir = D;
 }
 
 void	character_move(t_vars *vars, t_character_vars *cvars, int k)
@@ -175,15 +130,15 @@ void	character_move(t_vars *vars, t_character_vars *cvars, int k)
 	{
 		move_collect(vars, cvars);
 		move_exit(vars, cvars);
-		if (cvars->state == 13)
+		if (cvars->state == W)
 			move_w(vars, cvars, cvars->x, cvars->y);
-		else if (cvars->state == 0)
+		else if (cvars->state == A)
 			move_a(vars, cvars, cvars->x, cvars->y);
-		else if (cvars->state == 1)
+		else if (cvars->state == S)
 			move_s(vars, cvars, cvars->x, cvars->y);
-		else if (cvars->state == 2)
+		else if (cvars->state == D)
 			move_d(vars, cvars, cvars->x, cvars->y);
-		else if (cvars->state == -2 && vars->game_state == INGAME)
+		else if (cvars->state == AROUND && vars->game_state == INGAME)
 			move_around(vars, cvars, k);
 	}
 }

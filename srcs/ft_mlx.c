@@ -1,8 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_mlx.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 15:31:37 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:31:38 by hoh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-void	*ft_xpm(void *mlx_ptr, char *filename, int *width, int *height)
+void	*ft_xpm(t_vars *vars, char *filename, int *width, int *height)
 {
-	return (mlx_xpm_file_to_image(mlx_ptr, filename, width, height));
+	void	*ret;
+
+	ret = mlx_xpm_file_to_image(vars->mlx, filename, width, height);
+	if (!ret)
+	{
+		printf("Error\nfail to load \"%s\"", filename);
+		close_game(vars);
+	}
+	return (ret);
 }
 
 int	ft_img(t_vars *vars, void *img_ptr, int x, int y)

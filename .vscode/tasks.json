@@ -18,7 +18,7 @@
                 "OpenGL",
                 "-framework",
                 "AppKit",
-                "-lmlx",
+                "-lmlx86",
             ],
             "options": {
                 "cwd": "${fileDirname}"

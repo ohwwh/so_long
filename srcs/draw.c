@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   draw.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/04/19 15:31:16 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:31:17 by hoh              ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 void	map_draw_m(t_vars *vars, int x, int y)
@@ -28,7 +40,7 @@ void	map_draw_m(t_vars *vars, int x, int y)
 	}
 }
 
-void	map_draw_2(t_vars *vars, int i, int j, int n)
+void	map_draw_2(t_vars *vars, int i, int j, int *n)
 {
 	while (i < vars->w)
 	{
@@ -42,8 +54,9 @@ void	map_draw_2(t_vars *vars, int i, int j, int n)
 			}
 			else if (vars->map[i + j * (vars->w + 1)] == 'R')
 			{
-				vars->objs[n]->x = i * 64;
-				vars->objs[n ++]->y = (j - 1) * 64;
+				vars->objs[*n]->x = i * 64;
+				vars->objs[*n]->y = (j - 1) * 64;
+				*n += 1;
 			}
 			if (vars->map[i + j * (vars->w + 1)] == 'C')
 				ft_img(vars, vars->collect, i * 64, j * 64);
@@ -65,9 +78,10 @@ void	map_draw(t_vars *vars)
 	j = 0;
 	while (j < vars->h)
 	{
-		map_draw_2(vars, 0, j, n);
+		map_draw_2(vars, 0, j, &n);
 		j ++;
 	}
+	ft_img(vars, vars->num_box, 0, 0);
 }
 
 void	objs_draw(t_vars *vars)
@@ -107,7 +121,7 @@ void	step_draw(t_vars *vars)
 		{
 			printf("%d\n", ++ vars->objs[0]->step);
 			str = ft_itoa(vars->objs[0]->step);
-			ft_img(vars, vars->tile01, 0, 0);
+			ft_img(vars, vars->num_box, 0, 0);
 			mlx_string_put(vars->mlx, vars->win, 24, 36, 0x000000, str);
 			free(str);
 			str = 0;
