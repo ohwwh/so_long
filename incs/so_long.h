@@ -17,6 +17,13 @@
 # include <stdlib.h>
 # include <stdio.h>
 # define SPEED 4
+# define SELECT_DIFF -1
+# define EASY 1
+# define MEDIUM 2
+# define HARD 3
+# define SELECT_SPEED 0
+# define SLOW 1
+# define FAST 3
 # define INGAME 1
 # define CHASE 2
 # define DEATH 3
@@ -55,15 +62,19 @@ typedef struct s_character_vars {
 	int		x;
 	int		y;
 	int		d;
+	int		rand;
 	int		step;
 }	t_character_vars;
 
 typedef struct s_vars {
 	void					*mlx;
 	void					*win;
+	int						game_level;
+	int						game_speed;
 	int						game_state;
 	t_character_vars		**objs;
 	int						*order_arr;
+	int						dir_arr[4];
 	int						objs_n;
 	void					*tile00;
 	void					*tile01;
@@ -124,6 +135,7 @@ void	move_a(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_s(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_around(t_vars *vars, t_character_vars *cvars, int k);
+void	move_around_random(t_vars *vars, t_character_vars *cvars, int k);
 void	character_move(t_vars *vars, t_character_vars *cvars, int k);
 void	ft_free(t_vars *vars);
 void	init_obj(t_vars *vars);
@@ -134,6 +146,7 @@ void	init(t_vars *vars);
 void	ft_mlx_init(t_vars *vars);
 void	sort(int list[], int n, t_character_vars **objs);
 char	*ft_itoa(int n);
+int		ft_rand(void);
 void	chase(t_vars *vars);
 void	death(t_vars *vars);
 void	clear(t_vars *vars);

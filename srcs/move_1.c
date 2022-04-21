@@ -126,6 +126,8 @@ void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j)
 
 void	character_move(t_vars *vars, t_character_vars *cvars, int k)
 {
+	int	r;
+
 	if ((cvars->is_player) | (vars->game_state == INGAME))
 	{
 		move_collect(vars, cvars);

@@ -37,7 +37,9 @@ int	map_check_comp(char *map, t_vars *vars)
 	vars->collect_num = 0;
 	while (*map)
 	{
-		if (*map == 'C')
+		if (*map != '\n')
+		{
+			if (*map == 'C')
 			vars->collect_num ++;
 		else if (*map == 'P')
 			(check_p)++;
@@ -45,6 +47,7 @@ int	map_check_comp(char *map, t_vars *vars)
 			(check_e)++;
 		else if (*map != 'R' && *map != '1' && *map != '0')
 			return (2);
+		}
 		map ++;
 	}
 	if ((check_p != 1) | (!check_e) | (!vars->collect_num))

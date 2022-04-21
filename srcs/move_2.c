@@ -51,20 +51,32 @@ void	move_exit(t_vars *vars, t_character_vars *cvars)
 	}
 }
 
+void	move_around_random(t_vars *vars, t_character_vars *cvars, int k)
+{
+	if (k % (480 / SPEED) == 0)
+		cvars->rand = ft_rand();
+	if (((k / (480 / SPEED)) % 4) == 0)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	else if (((k / (480 / SPEED)) % 4) == 1)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	else if (((k / (480 / SPEED)) % 4) == 2)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	else if (((k / (480 / SPEED)) % 4) == 3)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+}
+
 void	move_around(t_vars *vars, t_character_vars *cvars, int k)
 {
-	int	arr[4];
-
-	arr[0] = S;
-	arr[1] = D;
-	arr[2] = W;
-	arr[3] = A;
+	/*if (k % (480 / SPEED) == 0)
+		r = ft_rand();
 	if (((k / (480 / SPEED)) % 4) == 0)
-		cvars->dir = arr[0];
+		cvars->dir = vars->dir_arr[r % 4];
 	else if (((k / (480 / SPEED)) % 4) == 1)
-		cvars->dir = arr[1];
+		cvars->dir = vars->dir_arr[r % 4];
 	else if (((k / (480 / SPEED)) % 4) == 2)
-		cvars->dir = arr[2];
+		cvars->dir = vars->dir_arr[r % 4];
 	else if (((k / (480 / SPEED)) % 4) == 3)
-		cvars->dir = arr[3];
+		cvars->dir = vars->dir_arr[r % 4];*/
+	move_around_random(vars, cvars, k);
+	
 }

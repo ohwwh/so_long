@@ -43,6 +43,24 @@ int	key_release(int keycode, t_vars *vars)
 		if (vars->game_state == DEATH | vars->game_state == CLEAR)
 			reset(vars);
 	}
+	if (vars->game_state == SELECT_DIFF)
+	{
+		if (keycode == 13)
+			vars->game_level = EASY;
+		if (keycode == 11)
+			vars->game_level = MEDIUM;
+		if (keycode == 10)
+			vars->game_level = HARD;
+	}
+	if (vars->game_state == SELECT_SPEED)
+	{
+		if (keycode == 13)
+			vars->game_speed = SLOW;
+		if (keycode == 11)
+			vars->game_level = MEDIUM;
+		if (keycode == 10)
+			vars->game_level = FAST;
+	}
 	return (0);
 }
 
