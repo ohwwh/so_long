@@ -113,13 +113,15 @@ void	init(t_vars *vars)
 	int	w;
 	int	h;
 
-	vars->game_state = INGAME;
+	vars->game_state = SELECT_DIFF;
 	vars->timer = 0;
 	vars->dir_arr[0] = W;
 	vars->dir_arr[1] = A;
 	vars->dir_arr[2] = S;
 	vars->dir_arr[3] = D;
 	init_obj(vars);
+	vars->menu_diff = ft_xpm(vars, "../asset/menu_difficulty.xpm", &w, &h);
+	vars->menu_speed = ft_xpm(vars, "../asset/menu_difficulty.xpm", &w, &h);
 	vars->tile00 = ft_xpm(vars, "../asset/tile09.xpm", &w, &h);
 	vars->tile01 = ft_xpm(vars, "../asset/tile08.xpm", &w, &h);
 	vars->collect = ft_xpm(vars, "../asset/meat1.xpm", &w, &h);

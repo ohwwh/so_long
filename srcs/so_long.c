@@ -43,24 +43,6 @@ int	key_release(int keycode, t_vars *vars)
 		if (vars->game_state == DEATH | vars->game_state == CLEAR)
 			reset(vars);
 	}
-	if (vars->game_state == SELECT_DIFF)
-	{
-		if (keycode == 13)
-			vars->game_level = EASY;
-		if (keycode == 11)
-			vars->game_level = MEDIUM;
-		if (keycode == 10)
-			vars->game_level = HARD;
-	}
-	if (vars->game_state == SELECT_SPEED)
-	{
-		if (keycode == 13)
-			vars->game_speed = SLOW;
-		if (keycode == 11)
-			vars->game_level = MEDIUM;
-		if (keycode == 10)
-			vars->game_level = FAST;
-	}
 	return (0);
 }
 
@@ -70,7 +52,7 @@ int	key_hook_move(t_vars *vars)
 		death(vars);
 	else if (vars->game_state == CLEAR)
 		clear(vars);
-	else
+	else if (vars->game_state == INGAME)
 	{
 		if (vars->game_state == CHASE)
 			chase(vars);
@@ -95,7 +77,8 @@ int	main(int argc, char *argv[])
 	map_check(vars.map, &vars);
 	ft_mlx_init(&vars);
 	init(&vars);
-	map_draw(&vars);
+	ft_img(&vars, vars.menu_diff, 0, 0);
+	//map_draw(&vars);
 	mlx_hook(vars.win, 2, 0, key_press, &vars);
 	mlx_hook(vars.win, 3, 0, &key_release, &vars);
 	mlx_hook(vars.win, 17, 0, &close_game, &vars);

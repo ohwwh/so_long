@@ -18,12 +18,12 @@
 # include <stdio.h>
 # define SPEED 4
 # define SELECT_DIFF -1
-# define EASY 1
-# define MEDIUM 2
-# define HARD 3
+# define EASY 0
+# define MEDIUM 1
+# define HARD 2
 # define SELECT_SPEED 0
-# define SLOW 1
-# define FAST 3
+# define SLOW 0
+# define FAST 2
 # define INGAME 1
 # define CHASE 2
 # define DEATH 3
@@ -76,6 +76,8 @@ typedef struct s_vars {
 	int						*order_arr;
 	int						dir_arr[4];
 	int						objs_n;
+	void					*menu_diff;
+	void					*menu_speed;
 	void					*tile00;
 	void					*tile01;
 	void					*collect;
