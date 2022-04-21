@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
-#include "get_next_line.h"
 
 int	count_obj(char *map)
 {

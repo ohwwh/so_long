@@ -95,6 +95,7 @@ void	objs_draw(t_vars *vars)
 		map_draw_m(vars, xl(vars->objs[i]->x), yo(vars->objs[i]->y));
 		i ++;
 	}
+	move_exit(vars, vars->objs[0]);
 	i = 0;
 	while (vars->objs[i])
 		character_move(vars, vars->objs[i ++], l);

@@ -44,22 +44,7 @@ void	move_exit(t_vars *vars, t_character_vars *cvars)
 	const int	i = cvars->x;
 	const int	j = cvars->y;
 
-	if (vars->map[xl(i) + (yo(j)) * (vars->w + 1)] == 'E')
-	{
-		if (!vars->collect_num)
-			vars->game_state = CLEAR;
-	}
-	else if (vars->map[xr(i) + (yo(j)) * (vars->w + 1)] == 'E')
-	{
-		if (!vars->collect_num)
-			vars->game_state = CLEAR;
-	}
-	else if (vars->map[xl(i) + (yu(j)) * (vars->w + 1)] == 'E')
-	{
-		if (!vars->collect_num)
-			vars->game_state = CLEAR;
-	}
-	else if (vars->map[xr(i) + (yu(j)) * (vars->w + 1)] == 'E')
+	if (vars->map[xl(i) + (yu(j)) * (vars->w + 1)] == 'E')
 	{
 		if (!vars->collect_num)
 			vars->game_state = CLEAR;

@@ -6,16 +6,18 @@
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:11:54 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 16:11:56 by hoh              ###   ########.fr       */
+/*   Updated: 2022/04/21 21:39:05 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include "mlx.h"
+# include "get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <fcntl.h>
 # define CHEAT 1
 # define SELECT_DIFF -1
 # define EASY 3
@@ -34,8 +36,6 @@
 # define D 2
 # define STAY -1
 # define AROUND -2
-
-//state 13 0 1 2 방향으로 이동중 -1 대기중 -2 사주경계중
 
 typedef struct s_character_vars {
 	void	*img_w00;
@@ -104,7 +104,7 @@ int		loc(int x, int y, t_vars *vars);
 int		close_game(t_vars *vars);
 int		count_obj(char *map);
 int		key_hook_move(t_vars *vars);
-void    key_hook_menu(int keycode, t_vars *vars);
+void	key_hook_menu(int keycode, t_vars *vars);
 int		key_hook(int keycode, t_vars *vars);
 int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_vars *vars);

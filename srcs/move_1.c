@@ -6,7 +6,7 @@
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:12 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:13 by hoh              ###   ########.fr       */
+/*   Updated: 2022/04/21 22:03:00 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,12 +126,9 @@ void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j)
 
 void	character_move(t_vars *vars, t_character_vars *cvars, int k)
 {
-	int	r;
-
 	if ((cvars->is_player) | (vars->game_state == INGAME))
 	{
 		move_collect(vars, cvars);
-		move_exit(vars, cvars);
 		if (cvars->state == W)
 			move_w(vars, cvars, cvars->x, cvars->y);
 		else if (cvars->state == A)
