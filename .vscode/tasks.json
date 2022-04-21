@@ -7,9 +7,9 @@
             "args": [
                 "-fdiagnostics-color=always",
                 "-g",
-                "-I${workspaceFolder}/minilibx_opengl_20191021/",
+                "-I${workspaceFolder}/mlx/",
                 "-I${workspaceFolder}/incs/",
-                "-L${workspaceFolder}/minilibx_opengl_20191021/",
+                "-L${workspaceFolder}/mlx/",
                 "${workspaceFolder}/srcs/*.c",
                 //"${so_long.c parsing.c get_next_line.c get_next_line_utils.c}",
                 "-o",
