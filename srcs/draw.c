@@ -122,7 +122,7 @@ void	step_draw(t_vars *vars)
 			printf("%d\n", ++ vars->objs[0]->step);
 			str = ft_itoa(vars->objs[0]->step);
 			ft_img(vars, vars->num_box, 0, 0);
-			mlx_string_put(vars->mlx, vars->win, 24, 24, 0, str);
+			mlx_string_put(vars->mlx, vars->win, 24, 36, 0, str);
 			free(str);
 			str = 0;
 		}

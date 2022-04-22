@@ -74,7 +74,7 @@ int	map_check_surr(char *map, t_vars *vars)
 		}
 		if (vars->w != width | *(map - 1) != '1')
 			return (1);
-		if (*map)
+		if (!(*map))
 			break ;
 		map ++;
 		h ++;

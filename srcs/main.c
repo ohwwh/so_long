@@ -15,26 +15,46 @@
 int	key_press(int keycode, t_vars *vars)
 {
 	if (keycode == 13 | keycode == 126)
-		vars->objs[0]->state = 13;
+	{
+		if (vars->objs[0]->state == 2 | vars->objs[0]->state == 33)
+			vars->objs[0]->state = 33;
+		else
+			vars->objs[0]->state = 13;
+	}
 	else if (keycode == 0 | keycode == 123)
 		vars->objs[0]->state = 0;
 	else if (keycode == 1 | keycode == 125)
 		vars->objs[0]->state = 1;
 	else if (keycode == 2 | keycode == 124)
-		vars->objs[0]->state = 2;
+	{
+		if (vars->objs[0]->state == 13 | vars->objs[0]->state == 33)
+			vars->objs[0]->state = 33;
+		else
+			vars->objs[0]->state = 2;
+	}
 	return (0);
 }
 
 int	key_release(int keycode, t_vars *vars)
 {
 	if (keycode == 13 | keycode == 126)
-		vars->objs[0]->state = -1;
+	{
+		if (vars->objs[0]->state == 33)
+			vars->objs[0]->state = 2;
+		else
+			vars->objs[0]->state = -1;
+	}
 	if (keycode == 0 | keycode == 123)
 		vars->objs[0]->state = -1;
 	if (keycode == 1 | keycode == 125)
 		vars->objs[0]->state = -1;
 	if (keycode == 2 | keycode == 124)
-		vars->objs[0]->state = -1;
+	{
+		if (vars->objs[0]->state == 33)
+			vars->objs[0]->state = 13;
+		else
+			vars->objs[0]->state = -1;
+	}
 	if (keycode == 53)
 		close_game(vars);
 	if (vars->game_state == DEATH | vars->game_state == CLEAR)
