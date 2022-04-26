@@ -54,11 +54,7 @@ void	move_exit(t_vars *vars, t_character_vars *cvars)
 void	move_around_random(t_vars *vars, t_character_vars *cvars, int k)
 {
 	if (k % (1000 / (vars->game_speed * 2)) == 0)
-	{
 		ft_rand(cvars);
-		if (cvars->is_player == 1)
-			printf("%d\n", cvars->rand % 4);
-	}
 	if (((k / (1000 / (vars->game_speed * 2))) % 4) == 0)
 		cvars->dir = vars->dir_arr[cvars->rand % 4];
 	else if (((k / (1000 / (vars->game_speed * 2))) % 4) == 1)
@@ -67,6 +63,30 @@ void	move_around_random(t_vars *vars, t_character_vars *cvars, int k)
 		cvars->dir = vars->dir_arr[cvars->rand % 4];
 	else if (((k / (1000 / (vars->game_speed * 2))) % 4) == 3)
 		cvars->dir = vars->dir_arr[cvars->rand % 4];
+}
+
+void	move_around_random_around(t_vars *vars, t_character_vars *cvars, int k)
+{
+	if (k % (1000 / (vars->game_speed * 2)) == 0)
+		ft_rand(cvars);
+	if (((k / (1000 / (vars->game_speed * 2))) % 8) % 2 == 1)
+		cvars->state = cvars->dir;
+	else
+	{
+		//cvars->state = -1;
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	}
+	/*else if (((k / (1000 / (vars->game_speed * 2))) % 8) == 0)
+	{
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+		cvars->state = -1;
+	}
+	else if (((k / (1000 / (vars->game_speed * 2))) % 8) == 2)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	else if (((k / (1000 / (vars->game_speed * 2))) % 8) == 4)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];
+	else if (((k / (1000 / (vars->game_speed * 2))) % 8) == 6)
+		cvars->dir = vars->dir_arr[cvars->rand % 4];*/
 }
 
 void	move_around(t_vars *vars, t_character_vars *cvars, int k)
@@ -89,5 +109,5 @@ void	move_around(t_vars *vars, t_character_vars *cvars, int k)
 			cvars->dir = vars->dir_arr[1];
 	}
 	else
-		move_around_random(vars, cvars, k);
+		move_around_random_around(vars, cvars, k);
 }

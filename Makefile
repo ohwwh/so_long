@@ -36,7 +36,7 @@ OBJSBNS=${BONUS:.c=.o}
 .PHONY: all clean fclean re
 
 %.o: %.c
-	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCSDIR)
+	$(CC) $(CFLAGS) -c $< -o $@ -I$(INCSDIR) -I$(MLXDIR)
 
 all : $(NAME) $(NAME_BONUS)
 

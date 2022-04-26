@@ -14,9 +14,6 @@
 
 static void	menu_diff(int keycode, t_vars *vars)
 {
-	const int	x = (vars->w * 64 - 640) / 2;
-	const int	y = (vars->h * 64 - 400) / 2;
-
 	if (keycode == 18)
 		vars->game_speed = EASY;
 	if (keycode == 19)
@@ -26,7 +23,7 @@ static void	menu_diff(int keycode, t_vars *vars)
 	if (keycode == 18 | keycode == 19 | keycode == 20)
 	{
 		vars->game_state = SELECT_SPEED;
-		ft_img(vars, vars->menu_speed, x, y);
+		ft_img(vars, vars->menu_speed, 0, 0);
 	}
 }
 
@@ -41,6 +38,11 @@ static void	menu_speed(int keycode, t_vars *vars)
 	if (keycode == 18 | keycode == 19 | keycode == 20)
 	{
 		vars->game_state = INGAME;
+		mlx_destroy_window(vars->mlx, vars->win);
+		ft_mlx_new(vars, vars->w * 64, vars->h * 64, "1");
+		mlx_hook(vars->win, 2, 0, &key_press, vars);
+		mlx_hook(vars->win, 3, 0, &key_release, vars);
+		mlx_hook(vars->win, 17, 0, &close_game, vars);
 		map_draw(vars);
 	}
 }

@@ -137,11 +137,14 @@ void	character_move(t_vars *vars, t_character_vars *cvars, int k)
 			move_s(vars, cvars, cvars->x, cvars->y);
 		else if (cvars->state == D)
 			move_d(vars, cvars, cvars->x, cvars->y);
-		else if (cvars->state == 33)
-		{
-			move_w(vars, cvars, cvars->x, cvars->y);
-			move_d(vars, cvars, cvars->x, cvars->y);
-		}
+		else if (cvars->state == WD)
+			move_wd(vars, cvars);
+		else if (cvars->state == WA)
+			move_wa(vars, cvars);
+		else if (cvars->state == SD)
+			move_sd(vars, cvars);
+		else if (cvars->state == SA)
+			move_sa(vars, cvars);
 		else if (cvars->state == AROUND && vars->game_state == INGAME)
 			move_around(vars, cvars, k);
 	}

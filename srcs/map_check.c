@@ -90,16 +90,19 @@ void	map_check(char *map, t_vars *vars)
 	if (ret == 1)
 	{
 		printf("Error\nNot enough necessary components in the map\n");
+		free(map);
 		exit(0);
 	}
 	else if (ret == 2)
 	{
 		printf("Error\nInvalid componenets in the map\n");
+		free(map);
 		exit(0);
 	}
 	else if (map_check_surr(map, vars) == 1)
 	{
 		printf("Error\nInvalid shape of the map\n");
+		free(map);
 		exit(0);
 	}
 }

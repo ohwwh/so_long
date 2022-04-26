@@ -34,6 +34,10 @@
 # define A 0
 # define S 1
 # define D 2
+# define WA 33
+# define WD 20
+# define SA 21
+# define SD 22
 # define STAY -1
 # define AROUND -2
 
@@ -58,7 +62,6 @@ typedef struct s_character_vars {
 	int		caught;
 	int		state;
 	int		dir;
-	int		collecting;
 	int		x;
 	int		y;
 	int		d;
@@ -108,6 +111,8 @@ void	key_hook_menu(int keycode, t_vars *vars);
 int		key_hook(int keycode, t_vars *vars);
 int		key_press(int keycode, t_vars *vars);
 int		key_release(int keycode, t_vars *vars);
+void	ft_mlx_init(t_vars *vars);
+void	ft_mlx_new(t_vars *vars, int x, int y, char *name);
 void	*ft_xpm(t_vars *vars, char *filename, int *width, int *height);
 int		ft_img(t_vars *vars, void *img_ptr, int x, int y);
 void	enemy_search(t_vars *vars, t_character_vars *evars);
@@ -139,8 +144,21 @@ void	move_w(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_a(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_s(t_vars *vars, t_character_vars *cvars, int i, int j);
 void	move_d(t_vars *vars, t_character_vars *cvars, int i, int j);
+void	move_wd(t_vars *vars, t_character_vars *cvars);
+void	move_wa(t_vars *vars, t_character_vars *cvars);
+void	move_sd(t_vars *vars, t_character_vars *cvars);
+void	move_sa(t_vars *vars, t_character_vars *cvars);
+void	key_press_w(t_vars *vars);
+void	key_press_a(t_vars *vars);
+void	key_press_s(t_vars *vars);
+void	key_press_d(t_vars *vars);
+void	key_release_w(t_vars *vars);
+void	key_release_a(t_vars *vars);
+void	key_release_s(t_vars *vars);
+void	key_release_d(t_vars *vars);
 void	move_around(t_vars *vars, t_character_vars *cvars, int k);
 void	move_around_random(t_vars *vars, t_character_vars *cvars, int k);
+void	move_around_random_around(t_vars *vars, t_character_vars *cvars, int k);
 void	character_move(t_vars *vars, t_character_vars *cvars, int k);
 void	ft_free(t_vars *vars);
 void	ft_free_reset(t_vars *vars);
@@ -149,7 +167,6 @@ void	create_objs_arr(t_vars *vars);
 void	init_player(t_vars *vars, t_character_vars *pvars);
 void	init_enemy(t_vars *vars, t_character_vars *pvars, int n);
 void	init(t_vars *vars);
-void	ft_mlx_init(t_vars *vars);
 void	sort(int list[], int n, t_character_vars **objs);
 char	*ft_itoa(int n);
 void	ft_rand(t_character_vars *cvars);

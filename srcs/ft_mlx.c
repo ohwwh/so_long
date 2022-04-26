@@ -32,19 +32,30 @@ int	ft_img(t_vars *vars, void *img_ptr, int x, int y)
 
 void	ft_mlx_init(t_vars *vars)
 {
-	const int	w = vars->w * 64;
-	const int	h = vars->h * 64;
-
 	vars->mlx = mlx_init();
 	if (!vars->mlx)
 	{
 		printf("Error\nmlx_init fail\n");
-		exit(0);
+		free(vars->map);
+		;
 	}
-	vars->win = mlx_new_window(vars->mlx, w, h, "New");
+	vars->win = mlx_new_window(vars->mlx, 640, 400, "menu");
 	if (!vars->win)
 	{
 		printf("Error\nmlx_new_window fail\n");
+		free(vars->map);
 		exit(0);
 	}
 }
+
+void	ft_mlx_new(t_vars *vars, int x, int y, char *name)
+{
+	vars->win = mlx_new_window(vars->mlx, x, y, name);
+	if (!vars->win)
+	{
+		printf("Error\nmlx_new_window fail\n");
+		ft_free(vars);
+		exit(0);
+	}
+}
+

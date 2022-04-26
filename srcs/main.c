@@ -14,47 +14,27 @@
 
 int	key_press(int keycode, t_vars *vars)
 {
-	if (keycode == 13 | keycode == 126)
-	{
-		if (vars->objs[0]->state == 2 | vars->objs[0]->state == 33)
-			vars->objs[0]->state = 33;
-		else
-			vars->objs[0]->state = 13;
-	}
-	else if (keycode == 0 | keycode == 123)
-		vars->objs[0]->state = 0;
-	else if (keycode == 1 | keycode == 125)
-		vars->objs[0]->state = 1;
-	else if (keycode == 2 | keycode == 124)
-	{
-		if (vars->objs[0]->state == 13 | vars->objs[0]->state == 33)
-			vars->objs[0]->state = 33;
-		else
-			vars->objs[0]->state = 2;
-	}
+	if (keycode == W | keycode == 126)
+		key_press_w(vars);
+	else if (keycode == A | keycode == 123)
+		key_press_a(vars);
+	else if (keycode == S | keycode == 125)
+		key_press_s(vars);
+	else if (keycode == D | keycode == 124)
+		key_press_d(vars);
 	return (0);
 }
 
 int	key_release(int keycode, t_vars *vars)
 {
-	if (keycode == 13 | keycode == 126)
-	{
-		if (vars->objs[0]->state == 33)
-			vars->objs[0]->state = 2;
-		else
-			vars->objs[0]->state = -1;
-	}
-	if (keycode == 0 | keycode == 123)
-		vars->objs[0]->state = -1;
-	if (keycode == 1 | keycode == 125)
-		vars->objs[0]->state = -1;
-	if (keycode == 2 | keycode == 124)
-	{
-		if (vars->objs[0]->state == 33)
-			vars->objs[0]->state = 13;
-		else
-			vars->objs[0]->state = -1;
-	}
+	if (keycode == W | keycode == 126)
+		key_release_w(vars);
+	if (keycode == A | keycode == 123)
+		key_release_a(vars);
+	if (keycode == S | keycode == 125)
+		key_release_s(vars);
+	if (keycode == D | keycode == 124)
+		key_release_d(vars);
 	if (keycode == 53)
 		close_game(vars);
 	if (vars->game_state == DEATH | vars->game_state == CLEAR)
@@ -92,20 +72,16 @@ int	key_hook_move(t_vars *vars)
 int	main(int argc, char *argv[])
 {
 	t_vars	vars;
-	int		x;
-	int		y;
 
 	vars.map = parsing(argv[1]);
 	arg_check(argc, argv, vars);
 	vars.w = ft_strnlen(vars.map) - 1;
 	vars.h = (ft_strlen(vars.map) + 1) / (vars.w + 1);
-	x = (vars.w * 64 - 640) / 2;
-	y = (vars.h * 64 - 400) / 2;
 	map_check(vars.map, &vars);
 	ft_mlx_init(&vars);
 	init(&vars);
-	ft_img(&vars, vars.menu_diff, x, y);
-	mlx_hook(vars.win, 2, 0, key_press, &vars);
+	ft_img(&vars, vars.menu_diff, 0, 0);
+	mlx_hook(vars.win, 2, 0, &key_press, &vars);
 	mlx_hook(vars.win, 3, 0, &key_release, &vars);
 	mlx_hook(vars.win, 17, 0, &close_game, &vars);
 	mlx_loop_hook(vars.mlx, &key_hook_move, &vars);
