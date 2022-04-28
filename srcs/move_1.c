@@ -145,7 +145,14 @@ void	character_move(t_vars *vars, t_character_vars *cvars, int k)
 			move_sd(vars, cvars);
 		else if (cvars->state == SA)
 			move_sa(vars, cvars);
-		else if (cvars->state == AROUND && vars->game_state == INGAME)
-			move_around(vars, cvars, k);
+		if (cvars->is_player)
+		{
+			if (vars->game_level == HIDDEN && vars->game_state == INGAME)
+				move_wander(vars, cvars, k);
+			/*else if (cvars->state == AROUND && vars->game_state == INGAME)
+				move_around(vars, cvars, k);*/
+			else if (vars->game_state == INGAME)
+				move_around(vars, cvars, k);
+		}
 	}
 }

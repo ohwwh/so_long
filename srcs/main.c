@@ -62,7 +62,7 @@ int	key_hook_move(t_vars *vars)
 		objs_draw(vars);
 		if (vars->game_state == INGAME)
 		{
-			all_enemies_search(vars);
+			//all_enemies_search(vars);
 			step_draw(vars);
 		}
 	}

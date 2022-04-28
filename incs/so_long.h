@@ -23,6 +23,7 @@
 # define EASY 3
 # define MEDIUM 4
 # define HARD 5
+# define HIDDEN 6
 # define SELECT_SPEED 0
 # define SLOW 2
 # define FAST 8
@@ -158,7 +159,7 @@ void	key_release_s(t_vars *vars);
 void	key_release_d(t_vars *vars);
 void	move_around(t_vars *vars, t_character_vars *cvars, int k);
 void	move_around_random(t_vars *vars, t_character_vars *cvars, int k);
-void	move_around_random_around(t_vars *vars, t_character_vars *cvars, int k);
+void	move_wander(t_vars *vars, t_character_vars *cvars, int k);
 void	character_move(t_vars *vars, t_character_vars *cvars, int k);
 void	ft_free(t_vars *vars);
 void	ft_free_reset(t_vars *vars);

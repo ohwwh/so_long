@@ -20,7 +20,9 @@ static void	menu_diff(int keycode, t_vars *vars)
 		vars->game_level = MEDIUM;
 	if (keycode == 20)
 		vars->game_level = HARD;
-	if (keycode == 18 | keycode == 19 | keycode == 20)
+	if (keycode == 21)
+		vars->game_level = HIDDEN;
+	if (keycode == 18 | keycode == 19 | keycode == 20 | keycode == 21)
 	{
 		vars->game_state = SELECT_SPEED;
 		ft_img(vars, vars->menu_speed, 0, 0);
