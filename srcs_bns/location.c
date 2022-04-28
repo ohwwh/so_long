@@ -1,43 +1,58 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset.c                                            :+:      :+:    :+:   */
+/*   location.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/19 15:32:27 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:27 by hoh              ###   ########.fr       */
+/*   Created: 2022/04/19 15:31:58 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:31:58 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-void	reset_collect(t_vars *vars)
+int	loc(int x, int y, t_vars *vars)
 {
-	int	i;
-	int	n;
-
-	n = 0;
-	i = 0;
-	while (vars->map[i])
-	{
-		if (vars->map[i] == 'c' | vars->map[i] == 'C')
-		{
-			vars->map[i] = 'C';
-			n ++;
-		}
-		i ++;
-	}
-	vars->collect_num = n;
+	return (x + y * (vars->w + 1));
 }
 
-void	reset(t_vars *vars)
+int	xr(int x)
 {
-	ft_free_reset(vars);
-	reset_collect(vars);
-	init(vars);
-	if (vars->game_level == EASY)
-		destroy_enemies(vars);
-	vars->game_state = INGAME;
-	map_draw(vars);
+	int	ret;
+
+	if (!(x % 64))
+		ret = x / 64;
+	else
+		ret = (x / 64) + 1;
+	return (ret);
+}
+
+int	yu(int y)
+{
+	int	ret;
+
+	y += 64;
+	if (!(y % 64))
+		ret = y / 64;
+	else
+		ret = (y / 64) + 1;
+	return (ret);
+}
+
+int	xl(int x)
+{
+	int	ret;
+
+	ret = x / 64;
+	return (ret);
+}
+
+int	yo(int y)
+{
+	int	ret;
+
+	y += 64;
+	ret = y / 64;
+	return (ret);
 }

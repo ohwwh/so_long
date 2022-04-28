@@ -44,7 +44,7 @@ int	map_check_comp(char *map, t_vars *vars)
 				(check_p)++;
 			else if (*map == 'E')
 				(check_e)++;
-			else if (*map != '1' && *map != '0')
+			else if (*map != 'R' && *map != '1' && *map != '0')
 				return (2);
 		}
 		map ++;

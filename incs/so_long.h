@@ -149,6 +149,7 @@ void	move_wd(t_vars *vars, t_character_vars *cvars);
 void	move_wa(t_vars *vars, t_character_vars *cvars);
 void	move_sd(t_vars *vars, t_character_vars *cvars);
 void	move_sa(t_vars *vars, t_character_vars *cvars);
+void	move_block(t_character_vars *cvars);
 void	key_press_w(t_vars *vars);
 void	key_press_a(t_vars *vars);
 void	key_press_s(t_vars *vars);
@@ -159,7 +160,7 @@ void	key_release_s(t_vars *vars);
 void	key_release_d(t_vars *vars);
 void	move_around(t_vars *vars, t_character_vars *cvars, int k);
 void	move_around_random(t_vars *vars, t_character_vars *cvars, int k);
-void	move_wander(t_vars *vars, t_character_vars *cvars, int k);
+void	move_around_wander(t_vars *vars, t_character_vars *cvars, int k);
 void	character_move(t_vars *vars, t_character_vars *cvars, int k);
 void	ft_free(t_vars *vars);
 void	ft_free_reset(t_vars *vars);
@@ -176,5 +177,6 @@ void	death(t_vars *vars);
 void	clear(t_vars *vars);
 void	reset(t_vars *vars);
 void	reset_collect(t_vars *vars);
+void    destroy_enemies(t_vars *vars);
 
 #endif
