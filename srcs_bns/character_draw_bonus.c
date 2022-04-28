@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	character_draw_w(t_vars *vars, t_character_vars *cvars, int k)
 {

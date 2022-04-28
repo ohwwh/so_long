@@ -6,7 +6,7 @@
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:06 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:06 by hoh              ###   ########.fr       */
+/*   Updated: 2022/04/28 12:49:21 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	map_check_comp(char *map, t_vars *vars)
 				(check_p)++;
 			else if (*map == 'E')
 				(check_e)++;
-			else if (*map != '1' && *map != '0')
+			else if (*map != 'R' && *map != '1' && *map != '0')
 				return (2);
 		}
 		map ++;

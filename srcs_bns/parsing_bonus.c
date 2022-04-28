@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset.c                                            :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/19 15:32:27 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:27 by hoh              ###   ########.fr       */
+/*   Created: 2022/04/19 15:32:21 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:32:22 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-void	reset_collect(t_vars *vars)
+char	*parsing(char *map_ber)
 {
-	int	i;
-	int	n;
+	int		fd;
+	int		width;
+	char	*pars;
+	char	*map;
 
-	n = 0;
-	i = 0;
-	while (vars->map[i])
+	map = 0;
+	fd = open(map_ber, O_RDONLY);
+	pars = get_next_line(fd);
+	width = ft_strlen(pars);
+	map = ft_strjoin(map, pars);
+	free(pars);
+	while (pars)
 	{
-		if (vars->map[i] == 'c' | vars->map[i] == 'C')
-		{
-			vars->map[i] = 'C';
-			n ++;
-		}
-		i ++;
+		pars = get_next_line(fd);
+		width = ft_strlen(pars);
+		map = ft_strjoin(map, pars);
+		free(pars);
 	}
-	vars->collect_num = n;
-}
-
-void	reset(t_vars *vars)
-{
-	ft_free_reset(vars);
-	reset_collect(vars);
-	init(vars);
-	if (vars->game_level == EASY)
-		destroy_enemies(vars);
-	vars->game_state = INGAME;
-	map_draw(vars);
+	return (map);
 }

@@ -6,11 +6,11 @@
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 15:32:42 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:43 by hoh              ###   ########.fr       */
+/*   Updated: 2022/04/28 12:55:55 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	key_press(int keycode, t_vars *vars)
 {

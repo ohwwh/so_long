@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 int	enemy_search_w(t_vars *vars, t_character_vars *evars, int x, int y)
 {

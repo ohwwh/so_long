@@ -6,7 +6,7 @@
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/19 16:11:54 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/21 21:39:05 by hoh              ###   ########.fr       */
+/*   Updated: 2022/04/28 12:50:35 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,6 +177,6 @@ void	death(t_vars *vars);
 void	clear(t_vars *vars);
 void	reset(t_vars *vars);
 void	reset_collect(t_vars *vars);
-void    destroy_enemies(t_vars *vars);
+void	destroy_enemies(t_vars *vars);
 
 #endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
 void	*ft_xpm(t_vars *vars, char *filename, int *width, int *height)
 {

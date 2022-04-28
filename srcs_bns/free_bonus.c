@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hoh <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/19 15:32:21 by hoh               #+#    #+#             */
-/*   Updated: 2022/04/19 15:32:22 by hoh              ###   ########.fr       */
+/*   Created: 2022/04/19 15:31:30 by hoh               #+#    #+#             */
+/*   Updated: 2022/04/19 15:31:31 by hoh              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
+#include "so_long_bonus.h"
 
-char	*parsing(char *map_ber)
+void	ft_free(t_vars *vars)
 {
-	int		fd;
-	int		width;
-	char	*pars;
-	char	*map;
+	int	i;
 
-	map = 0;
-	fd = open(map_ber, O_RDONLY);
-	pars = get_next_line(fd);
-	width = ft_strlen(pars);
-	map = ft_strjoin(map, pars);
-	free(pars);
-	while (pars)
-	{
-		pars = get_next_line(fd);
-		width = ft_strlen(pars);
-		map = ft_strjoin(map, pars);
-		free(pars);
-	}
-	return (map);
+	i = 0;
+	while (vars->objs[i])
+		free(vars->objs[i ++]);
+	free(vars->objs);
+	free(vars->order_arr);
+	free(vars->map);
+}
+
+void	ft_free_reset(t_vars *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->objs[i])
+		free(vars->objs[i ++]);
+	free(vars->objs);
+	free(vars->order_arr);
 }

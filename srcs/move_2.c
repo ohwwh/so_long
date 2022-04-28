@@ -64,6 +64,7 @@ void	move_around_wander(t_vars *vars, t_character_vars *cvars, int k)
 		ft_rand(cvars);
 	if ((((k / (1000 / (vars->game_speed * 2))) % 8)) % 2 == 0)
 	{
+		cvars->state = AROUND;
 		cvars->d = 0;
 		cvars->dir = vars->dir_arr[cvars->rand % 4];
 	}
