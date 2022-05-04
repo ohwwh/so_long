@@ -23,7 +23,7 @@ SRCSBNSDIR=./srcs_bns/
 SRCS_NAME= main.c arg_check.c map_check.c\
 	character_draw.c draw.c menu.c events.c\
 	move_1.c move_2.c move_3.c search.c touch.c\
-	free.c ft_mlx.c get_next_line.c get_next_line_utils.c utils.c\
+	free.c ft_mlx.c utils.c\
 	init.c location.c parsing.c reset.c\
 	key_press.c key_release.c destroy_enemy.c
 SRCS=$(addprefix $(SRCSDIR), $(SRCS_NAME))
@@ -56,12 +56,12 @@ $(NAME_BONUS) : $(OBJSBNS)
 	$(CC) $(CFLAGS) -o $(NAME_BONUS) $(OBJSBNS) -L$(MLXDIR) -L$(LIBDIR) -I$(INCSDIR) -lmlx -lohw -framework OpenGL -framework Appkit
 
 clean:
-	make -C $(MLXDIR) clean
-	make -C $(LIBDIR) clean
+	# make -C $(MLXDIR) clean
+	# make -C $(LIBDIR) clean
 	rm -f $(OBJS) $(OBJSBNS)
 
 fclean: clean
-	make -C $(LIBDIR) fclean
+	# make -C $(LIBDIR) fclean
 	rm -f $(NAME) $(NAME_BONUS)
 
 re: fclean all

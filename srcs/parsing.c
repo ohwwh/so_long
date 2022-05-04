@@ -22,14 +22,14 @@ char	*parsing(char *map_ber)
 	map = 0;
 	fd = open(map_ber, O_RDONLY);
 	pars = get_next_line(fd);
-	width = ft_strlen(pars);
-	map = ft_strjoin(map, pars);
+	width = gnl_strlen(pars);
+	map = gnl_strjoin(map, pars);
 	free(pars);
 	while (pars)
 	{
 		pars = get_next_line(fd);
-		width = ft_strlen(pars);
-		map = ft_strjoin(map, pars);
+		width = gnl_strlen(pars);
+		map = gnl_strjoin(map, pars);
 		free(pars);
 	}
 	return (map);
