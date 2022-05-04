@@ -75,7 +75,7 @@ int	main(int argc, char *argv[])
 
 	vars.map = parsing(argv[1]);
 	arg_check(argc, argv, vars);
-	vars.w = ft_strnlen(vars.map) - 1;
+	vars.w = gnl_strnlen(vars.map) - 1;
 	vars.h = (ft_strlen(vars.map) + 1) / (vars.w + 1);
 	map_check(vars.map, &vars);
 	ft_mlx_init(&vars);

@@ -12,8 +12,9 @@
 
 #ifndef SO_LONG_H
 # define SO_LONG_H
-# include "mlx.h"
-# include "get_next_line.h"
+# include "../mlx/mlx.h"
+# include "../../libohw/includes/libft.h"
+# include "../../libohw/includes/get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -170,7 +171,6 @@ void	init_player(t_vars *vars, t_character_vars *pvars);
 void	init_enemy(t_vars *vars, t_character_vars *pvars, int n);
 void	init(t_vars *vars);
 void	sort(int list[], int n, t_character_vars **objs);
-char	*ft_itoa(int n);
 void	ft_rand(t_character_vars *cvars);
 void	chase(t_vars *vars);
 void	death(t_vars *vars);
