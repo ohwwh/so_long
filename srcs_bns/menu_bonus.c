@@ -48,6 +48,7 @@ static void	menu_speed(int keycode, t_vars *vars)
 		mlx_hook(vars->win, 3, 0, &key_release, vars);
 		mlx_hook(vars->win, 17, 0, &close_game, vars);
 		map_draw(vars);
+		printf("repeat\n");
 	}
 }
 

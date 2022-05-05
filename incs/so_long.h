@@ -13,8 +13,8 @@
 #ifndef SO_LONG_H
 # define SO_LONG_H
 # include "../mlx/mlx.h"
-# include "../../libohw/includes/libft.h"
-# include "../../libohw/includes/get_next_line.h"
+# include "../libohw/includes/libft.h"
+# include "../libohw/includes/get_next_line.h"
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>

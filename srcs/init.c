@@ -23,22 +23,22 @@ void	init_player(t_vars *vars, t_character_vars *pvars)
 	pvars->step = 0;
 	pvars->dir = S;
 	pvars->rand = 0;
-	pvars->img_w00 = ft_xpm(vars, "../asset/fox_W00.xpm", &w, &w);
-	pvars->img_w01 = ft_xpm(vars, "../asset/fox_W01.xpm", &w, &w);
-	pvars->img_w02 = ft_xpm(vars, "../asset/fox_W02.xpm", &w, &w);
-	pvars->img_w03 = ft_xpm(vars, "../asset/fox_W03.xpm", &w, &w);
-	pvars->img_a00 = ft_xpm(vars, "../asset/fox_A00.xpm", &w, &w);
-	pvars->img_a01 = ft_xpm(vars, "../asset/fox_A01.xpm", &w, &w);
-	pvars->img_a02 = ft_xpm(vars, "../asset/fox_A02.xpm", &w, &w);
-	pvars->img_a03 = ft_xpm(vars, "../asset/fox_A03.xpm", &w, &w);
-	pvars->img_s00 = ft_xpm(vars, "../asset/fox_S00.xpm", &w, &w);
-	pvars->img_s01 = ft_xpm(vars, "../asset/fox_S01.xpm", &w, &w);
-	pvars->img_s02 = ft_xpm(vars, "../asset/fox_S02.xpm", &w, &w);
-	pvars->img_s03 = ft_xpm(vars, "../asset/fox_S03.xpm", &w, &w);
-	pvars->img_d00 = ft_xpm(vars, "../asset/fox_D00.xpm", &w, &w);
-	pvars->img_d01 = ft_xpm(vars, "../asset/fox_D01.xpm", &w, &w);
-	pvars->img_d02 = ft_xpm(vars, "../asset/fox_D02.xpm", &w, &w);
-	pvars->img_d03 = ft_xpm(vars, "../asset/fox_D03.xpm", &w, &w);
+	pvars->img_w00 = ft_xpm(vars, "./asset/fox_W00.xpm", &w, &w);
+	pvars->img_w01 = ft_xpm(vars, "./asset/fox_W01.xpm", &w, &w);
+	pvars->img_w02 = ft_xpm(vars, "./asset/fox_W02.xpm", &w, &w);
+	pvars->img_w03 = ft_xpm(vars, "./asset/fox_W03.xpm", &w, &w);
+	pvars->img_a00 = ft_xpm(vars, "./asset/fox_A00.xpm", &w, &w);
+	pvars->img_a01 = ft_xpm(vars, "./asset/fox_A01.xpm", &w, &w);
+	pvars->img_a02 = ft_xpm(vars, "./asset/fox_A02.xpm", &w, &w);
+	pvars->img_a03 = ft_xpm(vars, "./asset/fox_A03.xpm", &w, &w);
+	pvars->img_s00 = ft_xpm(vars, "./asset/fox_S00.xpm", &w, &w);
+	pvars->img_s01 = ft_xpm(vars, "./asset/fox_S01.xpm", &w, &w);
+	pvars->img_s02 = ft_xpm(vars, "./asset/fox_S02.xpm", &w, &w);
+	pvars->img_s03 = ft_xpm(vars, "./asset/fox_S03.xpm", &w, &w);
+	pvars->img_d00 = ft_xpm(vars, "./asset/fox_D00.xpm", &w, &w);
+	pvars->img_d01 = ft_xpm(vars, "./asset/fox_D01.xpm", &w, &w);
+	pvars->img_d02 = ft_xpm(vars, "./asset/fox_D02.xpm", &w, &w);
+	pvars->img_d03 = ft_xpm(vars, "./asset/fox_D03.xpm", &w, &w);
 }
 
 void	init_enemy(t_vars *vars, t_character_vars *evars, int n)
@@ -52,22 +52,22 @@ void	init_enemy(t_vars *vars, t_character_vars *evars, int n)
 	evars->step = 0;
 	evars->dir = S;
 	evars->rand = n;
-	evars->img_w00 = ft_xpm(vars, "../asset/cowboy_W00.xpm", &w, &w);
-	evars->img_w01 = ft_xpm(vars, "../asset/cowboy_W01.xpm", &w, &w);
-	evars->img_w02 = ft_xpm(vars, "../asset/cowboy_W02.xpm", &w, &w);
-	evars->img_w03 = ft_xpm(vars, "../asset/cowboy_W03.xpm", &w, &w);
-	evars->img_a00 = ft_xpm(vars, "../asset/cowboy_A00.xpm", &w, &w);
-	evars->img_a01 = ft_xpm(vars, "../asset/cowboy_A01.xpm", &w, &w);
-	evars->img_a02 = ft_xpm(vars, "../asset/cowboy_A02.xpm", &w, &w);
-	evars->img_a03 = ft_xpm(vars, "../asset/cowboy_A03.xpm", &w, &w);
-	evars->img_s00 = ft_xpm(vars, "../asset/cowboy_S00.xpm", &w, &w);
-	evars->img_s01 = ft_xpm(vars, "../asset/cowboy_S01.xpm", &w, &w);
-	evars->img_s02 = ft_xpm(vars, "../asset/cowboy_S02.xpm", &w, &w);
-	evars->img_s03 = ft_xpm(vars, "../asset/cowboy_S03.xpm", &w, &w);
-	evars->img_d00 = ft_xpm(vars, "../asset/cowboy_D00.xpm", &w, &w);
-	evars->img_d01 = ft_xpm(vars, "../asset/cowboy_D01.xpm", &w, &w);
-	evars->img_d02 = ft_xpm(vars, "../asset/cowboy_D02.xpm", &w, &w);
-	evars->img_d03 = ft_xpm(vars, "../asset/cowboy_D03.xpm", &w, &w);
+	evars->img_w00 = ft_xpm(vars, "./asset/cowboy_W00.xpm", &w, &w);
+	evars->img_w01 = ft_xpm(vars, "./asset/cowboy_W01.xpm", &w, &w);
+	evars->img_w02 = ft_xpm(vars, "./asset/cowboy_W02.xpm", &w, &w);
+	evars->img_w03 = ft_xpm(vars, "./asset/cowboy_W03.xpm", &w, &w);
+	evars->img_a00 = ft_xpm(vars, "./asset/cowboy_A00.xpm", &w, &w);
+	evars->img_a01 = ft_xpm(vars, "./asset/cowboy_A01.xpm", &w, &w);
+	evars->img_a02 = ft_xpm(vars, "./asset/cowboy_A02.xpm", &w, &w);
+	evars->img_a03 = ft_xpm(vars, "./asset/cowboy_A03.xpm", &w, &w);
+	evars->img_s00 = ft_xpm(vars, "./asset/cowboy_S00.xpm", &w, &w);
+	evars->img_s01 = ft_xpm(vars, "./asset/cowboy_S01.xpm", &w, &w);
+	evars->img_s02 = ft_xpm(vars, "./asset/cowboy_S02.xpm", &w, &w);
+	evars->img_s03 = ft_xpm(vars, "./asset/cowboy_S03.xpm", &w, &w);
+	evars->img_d00 = ft_xpm(vars, "./asset/cowboy_D00.xpm", &w, &w);
+	evars->img_d01 = ft_xpm(vars, "./asset/cowboy_D01.xpm", &w, &w);
+	evars->img_d02 = ft_xpm(vars, "./asset/cowboy_D02.xpm", &w, &w);
+	evars->img_d03 = ft_xpm(vars, "./asset/cowboy_D03.xpm", &w, &w);
 }
 
 void	create_objs_arr(t_vars *vars)
@@ -115,13 +115,13 @@ void	init(t_vars *vars)
 	vars->dir_arr[2] = S;
 	vars->dir_arr[3] = D;
 	init_obj(vars);
-	vars->menu_diff = ft_xpm(vars, "../asset/menu_difficulty.xpm", &w, &w);
-	vars->menu_speed = ft_xpm(vars, "../asset/menu_speed.xpm", &w, &w);
-	vars->clear = ft_xpm(vars, "../asset/clear.xpm", &w, &w);
-	vars->game_over = ft_xpm(vars, "../asset/game_over.xpm", &w, &w);
-	vars->tile00 = ft_xpm(vars, "../asset/test_tile.xpm", &w, &w);
-	vars->tile01 = ft_xpm(vars, "../asset/test_tile2.xpm", &w, &w);
-	vars->collect = ft_xpm(vars, "../asset/meat1.xpm", &w, &w);
-	vars->exit = ft_xpm(vars, "../asset/exit.xpm", &w, &w);
-	vars->num_box = ft_xpm(vars, "../asset/num_box_16.xpm", &w, &w);
+	vars->menu_diff = ft_xpm(vars, "./asset/menu_difficulty.xpm", &w, &w);
+	vars->menu_speed = ft_xpm(vars, "./asset/menu_speed.xpm", &w, &w);
+	vars->clear = ft_xpm(vars, "./asset/clear.xpm", &w, &w);
+	vars->game_over = ft_xpm(vars, "./asset/game_over.xpm", &w, &w);
+	vars->tile00 = ft_xpm(vars, "./asset/test_tile.xpm", &w, &w);
+	vars->tile01 = ft_xpm(vars, "./asset/test_tile2.xpm", &w, &w);
+	vars->collect = ft_xpm(vars, "./asset/meat1.xpm", &w, &w);
+	vars->exit = ft_xpm(vars, "./asset/exit.xpm", &w, &w);
+	vars->num_box = ft_xpm(vars, "./asset/num_box_16.xpm", &w, &w);
 }

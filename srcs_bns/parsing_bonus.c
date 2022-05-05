@@ -23,7 +23,7 @@ char	*parsing(char *map_ber)
 	fd = open(map_ber, O_RDONLY);
 	pars = get_next_line(fd);
 	width = gnl_strlen(pars);
-	map = ft_strjoin(map, pars);
+	map = gnl_strjoin(map, pars);
 	free(pars);
 	while (pars)
 	{
